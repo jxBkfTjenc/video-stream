@@ -56,9 +56,9 @@ async def join_chat(c: Client, m: Message):
             )
         await user.join_chat(invitelink)
         await remove_active_chat(chat_id)
-        return await user.send_message(chat_id, "✅ userbot joined this chat")
+        return await user.send_message(chat_id, "✅ assistant bot sudah bergabung dengan obrolan ini")
     except UserAlreadyParticipant:
-        return await user.send_message(chat_id, "✅ userbot already in this chat")
+        return await user.send_message(chat_id, "✅ assistant bot sudah ada di obrolan ini")
 
 
 @Client.on_message(
@@ -72,12 +72,12 @@ async def leave_chat(c :Client, m: Message):
         if chat_id in QUEUE:
             await remove_active_chat(chat_id)
             await user.leave_chat(chat_id)
-            return await c.send_message(chat_id, "✅ userbot has left from chat")
+            return await c.send_message(chat_id, "✅ assistant bot telah keluar dari obrolan")
         else:
             await user.leave_chat(chat_id)
-            return await c.send_message(chat_id, "✅ userbot has left from chat")
+            return await c.send_message(chat_id, "✅ assistant bot telah keluar dari obrolan")
     except UserNotParticipant:
-        return await c.send_message(chat_id, "❌ userbot already leave chat")
+        return await c.send_message(chat_id, "❌ assistant bot sudah meninggalkan obrolan")
 
 
 @Client.on_message(command(["leaveall", f"leaveall@{BOT_USERNAME}"]) & ~filters.edited)
@@ -87,24 +87,24 @@ async def leave_all(c: Client, message: Message):
         return
     run_1 = 0
     run_2 = 0
-    msg = await message.reply("🔄 Userbot started leaving all groups")
+    msg = await message.reply("🔄 assistant bot mulai meninggalkan semua grup")
     async for dialog in user.iter_dialogs():
         try:
             await user.leave_chat(dialog.chat.id)
             await remove_active_chat(dialog.chat.id)
             run_1 += 1
             await msg.edit(
-                f"Userbot leaving...\n\nLeft from: {run_1} chats.\nFailed in: {run_2} chats."
+                f"assistant bot meninggalkan grup...\n\nmeninggalkan: {run_1} grup.\ngagal: {run_2} grup."
             )
         except Exception:
             run_2 += 1
             await msg.edit(
-                f"Userbot leaving...\n\nLeft from: {run_1} chats.\nFailed in: {run_2} chats."
+                f"assistant bot meninggalkan...\n\nmeninggalkan: {run_1} grup.\ngagal: {run_2} grup."
             )
         await asyncio.sleep(0.7)
     await msg.delete()
     await client.send_message(
-        message.chat.id, f"✅ Left from: {run_2} chats.\n❌ Failed in: {run_2} chats."
+        message.chat.id, f"✅ meninggalkan: {run_2} grup.\n❌ gagal: {run_2} grup."
     )
 
 
@@ -113,7 +113,7 @@ async def leave_all(c: Client, message: Message):
 @authorized_users_only
 async def start_group_call(c: Client, m: Message):
     chat_id = m.chat.id
-    msg = await c.send_message(chat_id, "`starting...`")
+    msg = await c.send_message(chat_id, "`mulai...`")
     try:
         peer = await user.resolve_peer(chat_id)
         await user.send(
@@ -125,10 +125,10 @@ async def start_group_call(c: Client, m: Message):
                 random_id=user.rnd_id() // 9000000000,
             )
         )
-        await msg.edit_text("✅ Group call started !")
+        await msg.edit_text("✅ Panggilan grup dimulai !")
     except ChatAdminRequired:
         await msg.edit_text(
-            "The userbot is not admin in this chat. To start the Group call you must promote the userbot as admin first with permission:\n\n» ❌ manage_video_chats"
+            "assistant bot bukan admin dalam grup ini. Untuk memulai panggilan Grup, Anda harus mempromosikan assistant bot sebagai admin terlebih dahulu dengan izin:\n\n» ✅ manage_video_chats"
         )
 
 
@@ -137,25 +137,25 @@ async def start_group_call(c: Client, m: Message):
 @authorized_users_only
 async def stop_group_call(c: Client, m: Message):
     chat_id = m.chat.id
-    msg = await c.send_message(chat_id, "`stopping...`")
+    msg = await c.send_message(chat_id, "`berhenti...`")
     try:
         if not (
             group_call := (
-                await get_calls(m, err_msg="group call not active")
+                await get_calls(m, err_msg="panggilan grup tidak aktif")
             )
         ):
-            await msg.edit_text("❌ The group call already ended")
+            await msg.edit_text("❌ Panggilan grup sudah berakhir")
             return
         await user.send(
             DiscardGroupCall(
                 call=group_call
             )
         )
-        await msg.edit_text("✅ Group call has ended !")
+        await msg.edit_text("✅ Panggilan grup telah berakhir !")
     except Exception as e:
         if "GROUPCALL_FORBIDDEN" in str(e):
             await msg.edit_text(
-                "The userbot is not admin in this chat. To stop the Group call you must promote the userbot as admin first with permission:\n\n» ❌ manage_video_chats"
+                "assistant bot bukan admin dalam obrolan ini. Untuk menghentikan panggilan Grup, Anda harus mempromosikan assistant bot sebagai admin terlebih dahulu dengan izin:\n\n»❌ manage_video_chats"
             )
 
 
