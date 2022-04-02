@@ -58,11 +58,11 @@ async def broadcast_message_nopin(c: Client, message: Message):
                 sent += 1
             except Exception:
                 pass
-        await message.reply_text(f"✅ Broadcast complete in {sent} Group.")
+        await message.reply_text(f"✅ Broadcast selesai di {sent} Grup.")
         return
     if len(message.command) < 2:
         await message.reply_text(
-            "**usage**:\n\n/broadcast (`message`) or (`reply to message`)"
+            "**penggunaan**:\n\n/broadcast (`pesan`) atau (`membalas pesan`)"
         )
         return
     text = message.text.split(None, 1)[1]
@@ -78,7 +78,7 @@ async def broadcast_message_nopin(c: Client, message: Message):
             sent += 1
         except Exception:
             pass
-    await message.reply_text(f"✅ Broadcast complete in {sent} Group.")
+    await message.reply_text(f"✅ Broadcast selesai di {sent} Grup.")
 
 
 @Client.on_message(command(["broadcast_pin", f"broadcast_pin@{uname}"]) & ~filters.edited)
@@ -108,12 +108,12 @@ async def broadcast_message_pin(c: Client, message: Message):
             except Exception:
                 pass
         await message.reply_text(
-            f"✅ Broadcast complete in {sent} Group.\n📌 Sent with {pin} chat pins."
+            f"✅ Broadcast selesai di {sent} Grup.\n📌 Sent with {pin} pin obrolan."
         )
         return
     if len(message.command) < 2:
         await message.reply_text(
-            "**usage**:\n\n/broadcast_pin (`message`) or (`reply to message`)"
+            "**penggunaan**:\n\n/broadcast_pin (`pesan`) atau (`membalas pesan`)"
         )
         return
     text = message.text.split(None, 1)[1]
@@ -136,7 +136,7 @@ async def broadcast_message_pin(c: Client, message: Message):
         except Exception:
             pass
     await message.reply_text(
-        f"✅ Broadcast complete in {sent} Group.\n📌 Sent with {pin} chat pins."
+        f"✅ Broadcast selesai di {sent} Grup.\n📌 Sent with {pin} pin obrolan."
     )
 
 
@@ -152,17 +152,17 @@ async def bot_statistic(c: Client, message: Message):
     served_users = len(await get_served_users())
     gbans_usertl = await get_gbans_count()
     tgm = f"""
-📊 Current Statistic of [{name}](https://t.me/{uname})`:`
+📊 Statistik saat ini dari [{name}](https://t.me/{uname})`:`
 
-➥ **Groups Chat** : `{served_chats}`
-➥ **Users Dialog** : `{served_users}`
-➥ **Gbanned Users** : `{gbans_usertl}`
+➥ **Obrolan Grup** : `{served_chats}`
+➥ **Dialog Pengguna** : `{served_users}`
+➥ **Pengguna yang Diblokir** : `{gbans_usertl}`
 
-➛ **Python Version** : `{pyver}`
-➛ **PyTgCalls Version** : `{pytgver.__version__}`
-➛ **Pyrogram Version** : `{pyrover}`
+➛ **Versi Python** : `{pyver}`
+➛ **Versi PyTgCalls** : `{pytgver.__version__}`
+➛ **Versi Pyrogram** : `{pyrover}`
 
-🤖 bot version: `{ver}`"""
+🤖 Versi bot: `{ver}`"""
     await msg.edit(tgm, disable_web_page_preview=True)
 
 
@@ -192,9 +192,9 @@ async def active_group_calls(c: Client, message: Message):
             text += f"**{j + 1}.** {title} [`{x}`]\n"
         j += 1
     if not text:
-        await message.reply_text("❌ no active group calls")
+        await message.reply_text("❌ tidak ada panggilan grup yang aktif")
     else:
         await message.reply_text(
-            f"✏️ **Running Group Call List:**\n\n{text}\n❖ This is the list of all current active group call in my database.",
+            f"✏️ **Daftar Panggilan Grup yang berjalan:**\n\n{text}\n❖ Ini adalah daftar semua panggilan grup aktif saat ini di database saya.",
             disable_web_page_preview=True,
         )
