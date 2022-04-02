@@ -44,13 +44,13 @@ async def playlist(client, m: Message):
         chat_queue = get_queue(chat_id)
         if len(chat_queue) == 1:
             await m.reply(
-                f"💡 **Currently Streaming**`:`\n\n"
+                f"💡 **Saat ini Streaming**`:`\n\n"
                 f"➣ [{chat_queue[0][0]}]({chat_queue[0][2]}) | `{chat_queue[0][3]}`",
                 reply_markup=keyboard, disable_web_page_preview=True)
         else:
-            QUE = f"💡 **Currently Streaming**`:`\n\n" \
+            QUE = f"💡 **Saat ini Streaming**`:`\n\n" \
                   f"➣ [{chat_queue[0][0]}]({chat_queue[0][2]}) | `{chat_queue[0][3]}` \n\n" \
-                  f"**📖 Queue song list**`:`\n"
+                  f"**📖 daftar lagu antrian**`:`\n"
             l = len(chat_queue)
             for x in range(1, l):
                 han = chat_queue[x][0]
@@ -59,4 +59,4 @@ async def playlist(client, m: Message):
                 QUE = QUE + "\n" + f"`#{x}` - [{han}]({hok}) | `{hap}`"
             await m.reply(QUE, reply_markup=keyboard, disable_web_page_preview=True)
     else:
-        await m.reply("❌ **nothing is currently streaming.**")
+        await m.reply("❌ **tidak ada yang sedang streaming.**")
