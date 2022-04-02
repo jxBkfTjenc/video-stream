@@ -28,7 +28,6 @@ from config import (
     ALIVE_NAME,
     BOT_USERNAME,
     GROUP_SUPPORT,
-    OWNER_USERNAME,
     UPDATES_CHANNEL,
 )
 
@@ -85,26 +84,18 @@ async def start_(c: Client, message: Message):
     await add_served_user(user_id)
     await message.reply_text(
         f"""Hi {message.from_user.mention()} 👋🏻\n
-💭 [{me_bot.first_name}](https://t.me/{me_bot.username}) is a bot to play music and video in groups, through the new Telegram video chats.
-
-🕵🏻 Check out all the **Bot's commands** and how they work by clicking on the » 📚 **Commands** button!
-
-🧑🏻‍💻 To know how to use this bot, please click on the » ❓ **Basic Guide** button!
+💭 [{me_bot.first_name}](https://t.me/{me_bot.username}) adalah bot untuk memutar musik dan video dalam grup, melalui obrolan video Telegram.
 """,
         reply_markup=InlineKeyboardMarkup(
             [
                 [
-                    InlineKeyboardButton("➕ Add me to a Group ➕", url=f"https://t.me/{me_bot.username}?startgroup=true")
+                    InlineKeyboardButton("➕ Tambahkan saya ke Grup ➕", url=f"https://t.me/{me_bot.username}?startgroup=true")
                 ],[
-                    InlineKeyboardButton("❓ Basic Guide", callback_data="user_guide")
+                    InlineKeyboardButton("📚 CMD", callback_data="command_list"),
+                    InlineKeyboardButton("❓ Panduan", callback_data="user_guide")
                 ],[
-                    InlineKeyboardButton("📚 Commands", callback_data="command_list"),
-                    InlineKeyboardButton("❤️ Donate", url=f"https://t.me/{OWNER_USERNAME}")
-                ],[
-                    InlineKeyboardButton("👥 Support Group", url=f"https://t.me/{GROUP_SUPPORT}"),
-                    InlineKeyboardButton("📣 Support Channel", url=f"https://t.me/{UPDATES_CHANNEL}")
-                ],[
-                    InlineKeyboardButton("🌐 Source Code", url="https://github.com/levina-lab/video-stream")
+                    InlineKeyboardButton("👥 Group", url=f"https://t.me/{GROUP_SUPPORT}"),
+                    InlineKeyboardButton("📣 Channel", url=f"https://t.me/{UPDATES_CHANNEL}")
                 ],
             ]
         ),
@@ -131,7 +122,7 @@ async def alive(c: Client, message: Message):
             ]
         ]
     )
-    text = f"**Hello {message.from_user.mention()}, I'm {me_bot.first_name}**\n\n🧑🏼‍💻 My Master: [{ALIVE_NAME}](https://t.me/{OWNER_USERNAME})\n👾 Bot Version: `v{__version__}`\n🔥 Pyrogram Version: `{pyrover}`\n🐍 Python Version: `{__python_version__}`\n✨ PyTgCalls Version: `{pytover.__version__}`\n🆙 Uptime Status: `{uptime}`\n\n❤ **Thanks for Adding me here, for playing video & music on your Group's video chat**"
+    text = f"**Hallo {message.from_user.mention()}, Saya {me_bot.first_name}**\n\n👾 Versi Bot: `v{__version__}`\n🔥 Versi Pyrogram: `{pyrover}`\n🐍 Versi Python: `{__python_version__}`\n✨ Versi PyTgCalls: `{pytover.__version__}`\n🆙 Status Waktu Aktif: `{uptime}`\n\n❤ **Terima kasih telah Menambahkan saya di sini, untuk memutar video & musik di obrolan video Grup Anda**"
     await c.send_photo(
         chat_id,
         photo=f"{ALIVE_IMG}",
@@ -156,8 +147,8 @@ async def get_uptime(c: Client, message: Message):
     uptime_sec = (current_time - START_TIME).total_seconds()
     uptime = await _human_time_duration(int(uptime_sec))
     await message.reply_text(
-        f"• Uptime: `{uptime}`\n"
-        f"• Start Time: `{START_TIME_ISO}`"
+        f"• Waktu aktif: `{uptime}`\n"
+        f"• Waktu mulai: `{START_TIME_ISO}`"
     )
 
 
@@ -184,14 +175,14 @@ async def new_chat(c: Client, m: Message):
             if member.id == me_bot.id:
                 if chat_id in await blacklisted_chats():
                     await m.reply_text(
-                        "❗️ This chat has blacklisted by sudo user and You're not allowed to use me in this chat."
+                        "❗️ grup ini telah di blacklist oleh pengguna sudo dan Anda tidak diizinkan menggunakan saya dalam obrolan ini."
                     )
                     return await bot.leave_chat(chat_id)
             if member.id == me_bot.id:
                 return await m.reply(
-                    "❤️ Thanks for adding me to the **Group** !\n\n"
-                    "Appoint me as administrator in the **Group**, otherwise I will not be able to work properly, and don't forget to type `/userbotjoin` for invite the assistant.\n\n"
-                    "Once done, then type `/reload`",
+                    "❤️ Terima kasih telah menambahkan saya ke **Grup** !\n\n"
+                    "jadikan saya sebagai administrator di **Grup**, jika tidak saya tidak akan bisa bekerja dengan baik, dan jangan lupa ketik `/userbotjoin` untuk mengundang assistant bot.\n\n"
+                    "Setelah selesai, lalu ketik `/reload",
                     reply_markup=InlineKeyboardMarkup(
                         [
                             [
@@ -218,8 +209,8 @@ async def chat_watcher_func(_, message: Message):
         try:
             await message.chat.ban_member(userid)
         except ChatAdminRequired:
-            LOGS.info(f"can't remove gbanned user from chat: {message.chat.id}")
+            LOGS.info(f"tidak dapat menghapus pengguna yang diblokir dari obrolan: {message.chat.id}")
             return
         await message.reply_text(
-            f"👮🏼 (> {suspect} <)\n\n**Gbanned** user detected, that user has been gbanned by sudo user and was blocked from this Chat !\n\n🚫 **Reason:** potential spammer and abuser."
+            f"👮🏼 (> {suspect} <)\n\n**Gbanned** pengguna terdeteksi, pengguna itu telah diblokir oleh pengguna sudo dan diblokir dari Obrolan ini !\n\n🚫 **Reason:** potensi spammer dan penyalahguna."
         )
