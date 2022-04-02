@@ -27,7 +27,6 @@ from pyrogram.types import CallbackQuery, InlineKeyboardButton, InlineKeyboardMa
 from config import (
     BOT_USERNAME,
     GROUP_SUPPORT,
-    OWNER_USERNAME,
     UPDATES_CHANNEL,
     SUDO_USERS,
     OWNER_ID,
