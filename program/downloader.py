@@ -39,7 +39,7 @@ from driver.utils import remove_if_exists
 async def song_downloader(_, message):
     await message.delete()
     query = " ".join(message.command[1:])
-    m = await message.reply("🔎 finding song...")
+    m = await message.reply("🔎 sedang mencari lagu...")
     ydl_ops = {
         'format': 'bestaudio[ext=m4a]',
         'geo-bypass': True,
@@ -61,10 +61,10 @@ async def song_downloader(_, message):
         duration = results[0]["duration"]
 
     except Exception as e:
-        await m.edit("❌ song not found.\n\n» Give me a valid song name !")
+        await m.edit("❌ lagu tidak ditemukan.\n\n» Beri saya nama lagu yang valid !")
         print(str(e))
         return
-    await m.edit("📥 downloading song...")
+    await m.edit("📥 sedang mendownload lagu...")
     try:
         with yt_dlp.YoutubeDL(ydl_ops) as ydl:
             info_dict = ydl.extract_info(link, download=False)
@@ -76,7 +76,7 @@ async def song_downloader(_, message):
         for i in range(len(dur_arr) - 1, -1, -1):
             dur += int(float(dur_arr[i])) * secmul
             secmul *= 60
-        await m.edit("📤 uploading song...")
+        await m.edit("📤 sedang mengupload lagu...")
         await message.reply_audio(
             audio_file,
             caption=rep,
@@ -89,7 +89,7 @@ async def song_downloader(_, message):
         await m.delete()
 
     except Exception as e:
-        await m.edit("❌ error, wait for bot owner to fix")
+        await m.edit("❌ error, tunggu pemilik bot memperbaiki")
         print(e)
     try:
         remove_if_exists(audio_file)
@@ -130,7 +130,7 @@ async def video_downloader(_, message):
     except Exception as e:
         print(e)
     try:
-        msg = await message.reply("📥 downloading video...")
+        msg = await message.reply("📥 sedang mendownload video...")
         with YoutubeDL(ydl_opts) as ytdl:
             ytdl_data = ytdl.extract_info(link, download=True)
             file_name = ytdl.prepare_filename(ytdl_data)
@@ -138,7 +138,7 @@ async def video_downloader(_, message):
         traceback.print_exc()
         return await msg.edit(f"🚫 error: `{e}`")
     preview = wget.download(thumbnail)
-    await msg.edit("📤 uploading video...")
+    await msg.edit("📤 sedang upload video...")
     await message.reply_video(
         file_name,
         duration=int(ytdl_data["duration"]),
@@ -157,14 +157,14 @@ async def video_downloader(_, message):
 async def get_lyric_genius(_, message: Message):
     if len(message.command) < 2:
         return await message.reply_text("**usage:**\n\n/lyrics (song name)")
-    m = await message.reply_text("🔍 Searching lyrics...")
+    m = await message.reply_text("🔍 sedang mencari lyrics...")
     query = message.text.split(None, 1)[1]
     api = "OXaVabSRKQLqwpiYOn-E4Y7k3wj-TNdL5RfDPXlnXhCErbcqVvdCF-WnMR5TBctI"
     data = lyricsgenius.Genius(api)
     data.verbose = False
     result = data.search_song(query, get_full_info=False)
     if result is None:
-        return await m.edit("❌ `404` lyrics not found")
+        return await m.edit("❌ `404` lyrics tidak ditemukan")
     xxx = f"""
 **Title song:** {query}
 **Artist name:** {result.artist}
@@ -178,7 +178,7 @@ async def get_lyric_genius(_, message: Message):
             out_file.write(str(xxx.strip()))
         await message.reply_document(
             document=filename,
-            caption=f"**OUTPUT:**\n\n`attached lyrics text`",
+            caption=f"**OUTPUT:**\n\n`teks lirik terlampir`",
             quote=False,
         )
         remove_if_exists(filename)
