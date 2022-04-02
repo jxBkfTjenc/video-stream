@@ -73,7 +73,7 @@ async def stop(client, m: Message):
             await calls.leave_group_call(chat_id)
             await remove_active_chat(chat_id)
             clear_queue(chat_id)
-            await m.reply_text("✅ Userbot telah terputus dari obrolan video.")
+            await m.reply_text("✅ assistant bot telah terputus dari obrolan video.")
         except Exception as e:
             traceback.print_exc()
             await m.reply_text(f"🚫 **error:**\n\n`{e}`")
@@ -137,9 +137,9 @@ async def skip(c: Client, m: Message):
     if queue == 0:
         await m.reply_text("❌ tidak ada yang sedang diputar")
     elif queue == 1:
-        await m.reply_text("» Tidak ada lagi musik dalam antrian untuk dilewati, userbot meninggalkan obrolan video.")
+        await m.reply_text("» Tidak ada lagi musik dalam antrian untuk dilewati, assistant bot meninggalkan obrolan video.")
     elif queue == 2:
-        await m.reply_text("🗑️ Membersihkan **antrian**\n\n» **userbot** meninggalkan obrolan video.")
+        await m.reply_text("🗑️ Membersihkan **antrian**\n\n» **assistant bot** meninggalkan obrolan video.")
     else:
         buttons = stream_markup(user_id)
         requester = f"[{m.from_user.first_name}](tg://user?id={m.from_user.id})"
@@ -168,11 +168,11 @@ async def mute(client, m: Message):
     if chat_id in QUEUE:
         try:
             if not await is_music_playing(chat_id):
-                return await m.reply_text("ℹ️ Userbot sudah dibisukan.")
+                return await m.reply_text("ℹ️ assistant bot sudah dibisukan.")
             await calls.mute_stream(chat_id)
             await music_off(chat_id)
             await m.reply_text(
-                "🔇 **Userbot dibisukan.**\n\n• **Untuk mengaktifkan suara Userbot, gunakan perintah **\n» /unmute"
+                "🔇 **assistant bot dibisukan.**\n\n• **Untuk mengaktifkan suara assistant bot, gunakan perintah **\n» /unmute"
             )
         except Exception as e:
             traceback.print_exc()
@@ -191,11 +191,11 @@ async def unmute(client, m: Message):
     if chat_id in QUEUE:
         try:
             if await is_music_playing(chat_id):
-                return await m.reply_text("ℹ️ userbot sudah bersuara kembali.")
+                return await m.reply_text("ℹ️ assistant bot sudah bersuara kembali.")
             await calls.unmute_stream(chat_id)
             await music_on(chat_id)
             await m.reply_text(
-                "🔊 **Userbot bersuara kembali.**\n\n• *Untuk membisukan Userbot, gunakan perintah **\n» /mute"
+                "🔊 **assistant bot bersuara kembali.**\n\n• *Untuk membisukan assistant bot, gunakan perintah **\n» /mute"
             )
         except Exception as e:
             traceback.print_exc()
@@ -215,7 +215,7 @@ async def change_volume(c: Client, m: Message):
     a = await c.get_chat_member(m.chat.id, me_user.id)
     if not a.can_manage_voice_chats:
         return await m.reply_text(
-            "Userbot harus menjadi admin dalam obrolan ini untuk dapat mengubah volume pemutaran!"
+            "assistant bot harus menjadi admin dalam obrolan ini untuk dapat mengubah volume pemutaran!"
         )
     range = m.command[1]
     chat_id = m.chat.id
@@ -288,7 +288,7 @@ async def cbstop(_, query: CallbackQuery):
             await calls.leave_group_call(chat_id)
             await remove_active_chat(chat_id)
             clear_queue(chat_id)
-            await query.edit_message_text("✅ Userbot telah terputus dari obrolan video.", reply_markup=close_mark)
+            await query.edit_message_text("✅ assistant bot telah terputus dari obrolan video.", reply_markup=close_mark)
         except Exception as e:
             traceback.print_exc()
             await query.edit_message_text(f"🚫 **error:**\n\n`{e}`", reply_markup=close_mark)
@@ -306,11 +306,11 @@ async def cbmute(_, query: CallbackQuery):
     if chat_id in QUEUE:
         try:
             if not await is_music_playing(chat_id):
-                await query.answer("ℹ️ Userbot sudah dibisukan.", show_alert=True)
+                await query.answer("ℹ️ assistant bot sudah dibisukan.", show_alert=True)
                 return
             await calls.mute_stream(chat_id)
             await music_off(chat_id)
-            await query.answer("🔇 Userbot telah dibisukan !\n\n» untuk mengaktifkan suara Userbot, klik tombol Unmute !", show_alert=True)
+            await query.answer("🔇 assistant bot telah dibisukan !\n\n» untuk mengaktifkan suara assistant bot, klik tombol Unmute !", show_alert=True)
         except Exception as e:
             traceback.print_exc()
             await query.edit_message_text(f"🚫 **error:**\n\n`{e}`", reply_markup=close_mark)
@@ -328,11 +328,11 @@ async def cbunmute(_, query: CallbackQuery):
     if chat_id in QUEUE:
         try:
             if await is_music_playing(chat_id):
-                await query.answer("ℹ️ userbot sudah bersuara kembali.", show_alert=True)
+                await query.answer("ℹ️ assistant bot sudah bersuara kembali.", show_alert=True)
                 return
             await calls.unmute_stream(chat_id)
             await music_on(chat_id)
-            await query.answer("🔊 telah bersuara kembali !\n\n» untuk membisukan userbot klik tombol mute !", show_alert=True)
+            await query.answer("🔊 assistant bot telah bersuara kembali !\n\n» untuk membisukan assistant bot klik tombol mute !", show_alert=True)
         except Exception as e:
             traceback.print_exc()
             await query.edit_message_text(f"🚫 **error:**\n\n`{e}`", reply_markup=close_mark)
@@ -352,9 +352,9 @@ async def cbskip(_, query: CallbackQuery):
     if queue == 0:
         await query.answer("❌ tidak ada yang sedang diputar", show_alert=True)
     elif queue == 1:
-        await query.answer("» Tidak ada lagi musik dalam antrian untuk dilewati, userbot meninggalkan obrolan video.", show_alert=True)
+        await query.answer("» Tidak ada lagi musik dalam antrian untuk dilewati, assistant bot meninggalkan obrolan video.", show_alert=True)
     elif queue == 2:
-        await query.answer("🗑️ Membersihkan **antrian**\n\n» **userbot** meninggalkan obrolan video.", show_alert=True)
+        await query.answer("🗑️ Membersihkan **antrian**\n\n» **assistant bot** meninggalkan obrolan video.", show_alert=True)
     else:
         await query.answer("sedang memproses ke selanjutnya....")
         await query.message.delete()
