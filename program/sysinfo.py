@@ -57,7 +57,7 @@ async def fetch_system_information(client, message):
     psutil.disk_io_counters()
     disk = f"{humanbytes(du.used)} / {humanbytes(du.total)} " f"({du.percent}%)"
     cpu_len = len(psutil.Process().cpu_affinity())
-    somsg = f"""🖥 **System Information**
+    somsg = f"""🖥 **Sistem Informasi**
     
 **PlatForm :** `{splatform}`
 **PlatForm - Release :** `{platform_release}`
@@ -85,11 +85,11 @@ async def get_bot_logs(c: Client, m: Message):
             await m.reply_document(
                 bot_log_path,
                 quote=True,
-                caption='📁 this is the bot logs',
+                caption='📁 ini adalah log bot',
             )
         except Exception as e:
             remove_if_exists(bot_log_path)
             print(f'[ERROR]: {e}')
     else:
         if not os.path.exists(bot_log_path):
-            await m.reply_text('❌ no logs found !')
+            await m.reply_text('❌ tidak ada log yang ditemukan !')
