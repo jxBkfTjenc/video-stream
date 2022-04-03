@@ -369,7 +369,7 @@ async def audio_stream(c: Client, m: Message):
                             await m.reply_photo(
                                 photo=image,
                                 reply_markup=InlineKeyboardMarkup(buttons),
-                                caption=f"🗂 **Nama:** [{songname}]({url}) | `musik`\n**⏱ Duration:** `{duration}`\n🧸 **Request dari:** {requester}",
+                                caption=f"🗂 **Nama:** [{songname}]({url}) | `musik`\n**⏱ Durasi:** `{duration}`\n🧸 **Request dari:** {requester}",
                             )
                             remove_if_exists(image)
                         except (NoActiveGroupCall, GroupCallNotFound):
