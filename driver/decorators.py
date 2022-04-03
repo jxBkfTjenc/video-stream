@@ -99,8 +99,8 @@ async def check_perms(
         return True
     if user.status != "administrator":
         if notice:
-            await sender("💡 To use me, Give me the administrator permission." if user.user.is_self else
-                         "💡 You need to be an administrator to use this command.")
+            await sender("💡 Untuk menggunakan saya, Beri saya izin administrator." if user.user.is_self else
+                         "💡 Anda harus menjadi administrator untuk menggunakan perintah ini.")
         return False
 
     if isinstance(permissions, str):
@@ -114,8 +114,8 @@ async def check_perms(
         return True
     if notice:
         permission_text = "__\n ❌ __".join(missing_perms)
-        await sender(f"💡 To use me, Give me the following permission below:\n\n ❌ __{permission_text}__" if user.user.is_self
-                     else f"💡 You need to be an administrator to use this command.\n\n ❌ __{permission_text}__")
+        await sender(f"💡 Untuk menggunakan saya, Beri saya izin berikut di bawah ini:\n\n ❌ __{permission_text}__" if user.user.is_self
+                     else f"💡 Anda harus menjadi administrator untuk menggunakan perintah ini.\n\n ❌ __{permission_text}__")
     return False
 
 
@@ -151,10 +151,10 @@ def check_blacklist():
                 sender = message.reply_text
                 chat = message.chat
             if chat.id in await blacklisted_chats():
-                await sender("❗️ This chat has blacklisted by sudo user and You're not allowed to use me in this chat.")
+                await sender("❗️ Obrolan ini telah masuk daftar blacklist oleh pengguna sudo dan Anda tidak diizinkan menggunakan saya dalam obrolan ini.")
                 await bot.leave_chat(chat.id)
             elif (await is_gbanned_user(message.from_user.id)):
-                await sender(f"❗️**You've blocked from using this bot!**")
+                await sender(f"❗️**Anda telah diblokir dari menggunakan bot ini!**")
             else:
                 return await func(client, message, *args, *kwargs)
 
